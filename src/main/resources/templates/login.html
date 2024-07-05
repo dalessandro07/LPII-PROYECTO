@@ -1,31 +1,108 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+  data-theme="coffee"
+  xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<meta charset="UTF-8">
+<title>Iniciar sesión | CafeTec</title>
+<!-- Estilos DaisyUI + Tailwind CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+  rel="stylesheet"
+  type="text/css" />
+<script src="https://cdn.tailwindcss.com">
+    tailwind.config = {
+        theme : {},
+        daisyui : {
+            themes : [ "coffee" ]
+        }
+    }
+</script>
 </head>
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
-<div class="card shadow-sm p-4">
-  <div th:if="${loginInvalido}" class="alert alert-danger" role="alert">
-    <span th:text="${loginInvalido}"></span>
+<body class="min-h-dvh grid grid-cols-2 items-center">
+  <img
+    width="800"
+    height="800"
+    src="/images/login-banner.jpg"
+    alt="Imagen de inicio de sesión"
+    class="w-full object-cover h-full max-h-dvh" />
+    
+  <div class="w-full max-w-lg mx-auto p-8">
+    <div
+      th:if="${loginInvalido}"
+      role="alert"
+      class="alert alert-error">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 shrink-0 stroke-current"
+        fill="none"
+        viewBox="0 0 24 24">
+    <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+      <span th:text="${loginInvalido}"></span>
+    </div>
+    <h2 class="text-4xl font-bold">Inicio de sesión</h2>
+    
+    <form
+      class="flex flex-col gap-4 mt-5"
+      autocomplete="off"
+      th:action="@{/login}"
+      method="post"
+      th:object="${usuario}">
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-4 w-4 opacity-70">
+    <path
+              d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+    <path
+              d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+  </svg>
+          <input
+            required
+            th:field="*{correo}"
+            type="email"
+            id="username"
+            name="username"
+            class="grow"
+            placeholder="Ingresa tu correo electrónico" />
+        </label>
+      </div>
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-4 w-4 opacity-70">
+    <path
+              fill-rule="evenodd"
+              d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+              clip-rule="evenodd" />
+  </svg>
+          <input
+            id="password"
+            name="password"
+            placeholder="Ingrese su contraseña"
+            required
+            th:field="*{password}"
+            type="password"
+            class="grow"
+            value="password" />
+        </label>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary">Iniciar sesión</button>
+      <a class="btn btn-link" href="/registrar">Crear cuenta</a>
+    </form>
   </div>
-  <h2 class="card-title text-center mb-4">Inicio de Sesión</h2>
-  <form th:action="@{/login}" method="post" th:object="${usuario}">
-    <div class="form-group">
-      <label for="username">Correo</label>
-      <input th:field="*{correo}" type="email" class="form-control" id="username" name="username" placeholder="Ingrese su usuario" required>
-    </div>
-    <div class="form-group">
-      <label for="password">Contraseña</label>
-      <input th:field="*{password}" type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
-    </div>
-    <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-    <a href="/registrar">Registrar Usuario</a>
-  </form>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

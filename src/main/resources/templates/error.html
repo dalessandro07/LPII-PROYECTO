@@ -1,0 +1,33 @@
+<!doctype html>
+<html
+  lang="en"
+  data-theme="coffee">
+<head>
+<meta charset="UTF-8">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
+<title>Ocurrió un error</title>
+<!-- Estilos DaisyUI + Tailwind CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+  rel="stylesheet"
+  type="text/css" />
+<script src="https://cdn.tailwindcss.com">
+    tailwind.config = {
+        theme : {},
+        daisyui : {
+            themes : [ "coffee" ]
+        }
+    }
+</script>
+</head>
+<body
+  class="min-h-screen flex flex-col items-center justify-center gap-5">
+  <h1 class="text-4xl font-bold text-error mb-4">Ooops... ocurrió
+    un error</h1>
+  <a
+    href="/"
+    class="btn btn-primary">Volver al Inicio</a>
+</body>
+</html>

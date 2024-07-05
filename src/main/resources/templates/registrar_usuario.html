@@ -1,55 +1,168 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!DOCTYPE html>
+<html
+  data-theme="coffee"
+  xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+<meta charset="UTF-8">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
+<title>Registrar Usuario | CafeTec</title>
+<!-- Estilos DaisyUI + Tailwind CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+  rel="stylesheet"
+  type="text/css" />
+<script src="https://cdn.tailwindcss.com">
+    tailwind.config = {
+        theme : {},
+        daisyui : {
+            themes : [ "coffee" ]
+        }
+    }
+</script>
 </head>
-<body>
-    <div class="container">
-        <div th:if="${registroCorrecto}" class="alert alert-success mt-4" role="alert">
-            <span th:text="${registroCorrecto}"></span>
-        </div>
-        <h3 class="mt-3">Registrar Usuario</h3>
-        <form th:action="@{/registrar}" method="post" th:object="${usuario}" enctype="multipart/form-data">
-            <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="validationCustom01">Correo</label>
-                    <input th:field="*{correo}" type="email" class="form-control" id="validationCustom01" required>
-
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="validationCustom02">Nombres</label>
-                    <input th:field="*{nombre}" type="text" class="form-control" id="validationCustom02"  required>
-
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="validationCustom03">Celular</label>
-                    <input th:field="*{celular}" type="number" class="form-control" id="validationCustom03" required>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom05">Password</label>
-                    <input th:field="*{password}" type="password" class="form-control" id="validationCustom05" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlFile1">Foto Usuario</label>
-                <input name="foto" accept="image/*" required type="file" class="form-control-file" id="exampleFormControlFile1">
-            </div>
-            <a class="btn btn-secondary" href="/">Ir al Login</a>
-            <button class="btn btn-primary" type="submit">Submit form</button>
-        </form>
-
+<body class="min-h-dvh grid grid-cols-2 items-center">
+  <img
+    width="800"
+    height="800"
+    src="/images/login-banner.jpg"
+    alt="Imagen de inicio de sesión"
+    class="w-full object-cover h-full max-h-dvh" />
+  <div class="w-full max-w-lg p-8 mx-auto">
+    <div
+      th:if="${registroCorrecto}"
+      role="alert"
+      class="alert alert-success mb-5">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 shrink-0 stroke-current"
+        fill="none"
+        viewBox="0 0 24 24">
+    <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+      <span th:text="${registroCorrecto}"></span>
     </div>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <h2 class="text-4xl font-bold">Crea tu cuenta</h2>
+    <form
+      th:action="@{/registrar}"
+      method="post"
+      th:object="${usuario}"
+      enctype="multipart/form-data"
+      class="space-y-4 mt-8">
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-4 w-4 opacity-70">
+            <path
+              d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+            <path
+              d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+          </svg>
+          <input
+            th:field="*{correo}"
+            type="email"
+            class="grow"
+            id="validationCustom01"
+            placeholder="Ingresa tu correo electrónico"
+            required />
+        </label>
+      </div>
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-4">
+  <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+</svg>
+          <input
+            th:field="*{nombre}"
+            type="text"
+            class="grow"
+            id="validationCustom02"
+            placeholder="Ingresa tus nombres"
+            required />
+        </label>
+      </div>
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-4">
+  <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+</svg>
+          <input
+            th:field="*{celular}"
+            type="number"
+            class="grow"
+            id="validationCustom03"
+            placeholder="Ingresa tu número de celular"
+            required />
+        </label>
+      </div>
+      <div>
+        <label class="input input-bordered flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-4 w-4 opacity-70">
+            <path
+              fill-rule="evenodd"
+              d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+              clip-rule="evenodd" />
+          </svg>
+          <input
+            th:field="*{password}"
+            type="password"
+            class="grow"
+            id="validationCustom05"
+            placeholder="Ingresa tu contraseña"
+            required />
+        </label>
+      </div>
+      <div class="form-control">
+        <label
+          class="label"
+          for="exampleFormControlFile1">Imagen de perfil</label>
+        <input
+          name="foto"
+          accept="image/*"
+          required
+          type="file"
+          class="file-input file-input-bordered"
+          id="exampleFormControlFile1" />
+      </div>
+      <div class="flex flex-col gap-4">
+        <button
+          class="btn btn-primary"
+          type="submit">Crear usuario 🚀</button>
+        <a
+          class="btn btn-link"
+          href="/">¿Ya tienes una cuenta?, Inicia sesión</a>
+      </div>
+    </form>
+  </div>
 </body>
 </html>
