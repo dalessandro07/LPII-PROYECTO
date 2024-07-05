@@ -1,151 +1,262 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="es"
+  xmlns:th="http://www.thymeleaf.org"
+  data-theme="coffee">
 <head>
-    <title>Navbar Example</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <!-- FontAwesome -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
+<title>Menu | CafeTec</title>
+<!-- Estilos DaisyUI + Tailwind CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+  rel="stylesheet"
+  type="text/css" />
+<script src="https://cdn.tailwindcss.com">
+    tailwind.config = {
+        theme : {},
+        daisyui : {
+            themes : [ "coffee" ]
         }
-        .cart-icon {
-            position: relative;
-            font-size: 24px;
-            color: #333;
-            margin-left: 20px;
-        }
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 4px 8px;
-            font-size: 12px;
-            font-weight: bold;
-            min-width: 18px;
-            text-align: center;
-        }
-    </style>
+    }
+</script>
 </head>
-<body>
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" th:href="@{/menu}">Productos</a>
-    
-    <div class="form-inline my-2 my-lg-0 ml-auto">
-        <img th:src="${'/usuario_foto/' + foto}" alt="Profile" class="profile-pic">
-        <a class="btn btn-outline-danger ml-2" th:href="@{/logout}" role="button">Logout</a>
-        <a class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
-            <svg class="bi bi-cart3" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M1 1a.5.5 0 0 1 .5-.5h1.7l1.88 6.785a.5.5 0 0 0 .48.365h8.31a.5.5 0 0 0 .48-.365L13.8 3.5h1.7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3.612l-.47 1.692a.5.5 0 0 0 .48.608h8.682a1.5 1.5 0 1 0 1.342-2H4.572l-.47 1.692a.5.5 0 0 0 .48.608h5.747a.5.5 0 1 1 0 1H4.682l-.47 1.692a.5.5 0 0 0 .48.608h5.566a1.5 1.5 0 1 0 1.342-2H4.196l-.47 1.692a.5.5 0 0 0 .48.608h3.905a.5.5 0 1 1 0 1H3.887a1.5 1.5 0 1 0 1.342-2H2.646l-.47 1.692a.5.5 0 0 0 .48.608H5.38a.5.5 0 1 1 0 1H2.128a1.5 1.5 0 1 0 1.342-2H1V1z"/>
-            </svg>
-            <span th:text="${cant_carrito}" class="badge badge-danger"></span>
-        </a>
+<body class="overflow-x-hidden">
+  <nav class="navbar bg-base-100 shadow-md gap-5">
+    <div class="flex-1">
+      <a
+        class="btn btn-ghost rounded-none normal-case text-xl flex justify-start"
+        th:href="@{/menu}">CafeTec | Menu</a>
     </div>
-</nav>
-
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-4 mb-4" th:each="producto: ${productos}">
-            <div class="card" style="width: 18rem;">
-                <img width="100px%" height="100px" th:src="${producto.urlImagen}" class="card-img-top" alt="Product Image">
-                <div class="card-body">
-                    <form th:action="@{/agregar_producto}" th:object="${pedido}" method="post">
-                        <h5 class="card-title" th:text="${producto.nombre}"></h5>
-                        <p class="card-text">
-                            <strong>Precio:</strong> S/<span th:text="${producto.precio}"></span><br>
-                            <strong>Cantidad:</strong> <span th:text="${producto.stock}"></span> unidades
-                        </p>
-                        <input required name="cant" placeholder="Ingrese cantidad" class="form-control mb-3" type="number">
-                        <input name="prodId" type="hidden" th:value="${producto.productoId}">
-                        <button type="submit" class="btn btn-primary">Agregar +</button>
-                    </form>
-                </div>
-            </div>
+    <div class="flex flex-none gap-5 items-center pr-5">
+      <div class="dropdown dropdown-end">
+        <div
+          tabindex="0"
+          role="button"
+          class="btn btn-ghost btn-circle">
+          <div class="indicator">
+            <svg
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+                        <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+            <span
+              th:text="${cant_carrito}"
+              class="badge badge-sm badge-primary indicator-item"></span>
+          </div>
         </div>
-    </div>
-</div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Carrito de compras</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div
+          tabindex="0"
+          class="card card-compact dropdown-content bg-base-300 z-[1] mt-3 w-max shadow">
+          <div
+            class="card-header flex justify-between items-center p-4 border-b">
+            <h5 class="text-lg font-bold">Carrito de compras</h5>
+          </div>
+          <div class="card-body p-4">
+            <table class="table-auto w-full">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-4 py-2">ID</th>
+                  <th
+                    scope="col"
+                    class="px-4 py-2">Imagen</th>
+                  <th
+                    scope="col"
+                    class="px-4 py-2">Nombre</th>
+                  <th
+                    scope="col"
+                    class="px-4 py-2">Precio</th>
+                  <th
+                    scope="col"
+                    class="px-4 py-2">Cantidad</th>
+                  <th
+                    scope="col"
+                    class="px-4 py-2">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="ped: ${carrito}">
+                  <td
+                    th:text="${ped.productoEntity.productoId}"
+                    class="px-4 py-2"></td>
+                  <td class="px-4 py-2"><img
+                    width="50"
+                    height="50"
+                    class="w-20 h-20 object-cover"
+                    th:src="${ped.productoEntity.urlImagen}"
+                    alt=""></td>
+                  <td
+                    th:text="${ped.productoEntity.nombre}"
+                    class="px-4 py-2"></td>
+                  <td
+                    th:text="'S/' + ${#numbers.formatDecimal(ped.productoEntity.precio, 1, 2)}"
+                    class="px-4 py-2"></td>
+                  <td
+                    th:text="${ped.cantidad}"
+                    class="px-4 py-2"></td>
+                  <td
+                    th:text="'S/ ' + ${#numbers.formatDecimal(ped.cantidad * ped.productoEntity.precio, 1, 2)}"
+                    class="px-4 py-2"></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-right mt-4">
+              <b><span
+                  th:text="'Total: S/' + ${#numbers.formatDecimal(total, 1, 2)}"></span></b>
             </div>
-            
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Imagen</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">precio</th>
-                            <th scope="col">cantidad</th>
-                            <th scope="col">Subtotal</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="ped: ${carrito}">
-                            <td th:text="${ped.productoEntity.productoId}"></td>
-                            <td><img width="50px" height="50px" th:src="${ped.productoEntity.urlImagen}" alt=""></td>
-                            <td th:text="${ped.productoEntity.nombre}"></td>
-                            <td th:text="'S/' + ${ped.productoEntity.precio}"></td>
-                            <td th:text="${ped.cantidad}"></td>
-                            <td th:text="'S/ ' + ${#numbers.formatDecimal(ped.cantidad * ped.productoEntity.precio, 1, 2)}"></td>
-
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="text-right">
-                        <b><span th:text="'Total: S/' + ${total}">ff</span></b>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <a th:href="@{/guardar_factura}" class="btn btn-primary" data-toggle="modal2" data-target="#exampleModal2">Guardar</a>
-            </div>
+          </div>
+          <div class="card-footer flex justify-end p-4 border-t">
+            <a
+              th:href="@{/guardar_factura}"
+              class="btn btn-primary">Confirmar compra</a>
+          </div>
         </div>
-    </div>
-</div>
-
- <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content text-center">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Compra exitosa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Tu compra ha sido realizada con éxito.</p>
-                    <a target="_blank" th:href="@{/generar_pdf}" class="btn btn-info mt-3">Imprimir boleta</a>
-                </div>
-            </div>
+      </div>
+      <div class="dropdown dropdown-end avatar">
+        <div
+          tabindex="0"
+          role="button"
+          class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+          <img
+            th:src="${'/usuario_foto/' + foto}"
+            alt="Profile">
         </div>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu flex flex-col gap-2 bg-base-100 rounded-box w-72 z-[1] p-2 shadow">
+          <li
+            class="btn btn-ghost"
+            th:text="'Nombre: ' + ${nombre}"></li>
+          <li
+            class="btn btn-ghost"
+            th:text="'Celular: ' + ${celular}"></li>
+          <li
+            class="btn btn-ghost"
+            th:text="'Correo: ' + ${correo}"></li>
+          <li>
+            <a
+              class="btn btn-error whitespace-nowrap"
+              th:href="@{/logout}"
+              role="button">Cerrar sesión</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+  <div class="mt-5 px-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div th:each="producto: ${productos}">
+        <div class="card bg-base-300 shadow-xl">
+          <img
+            th:src="${producto.urlImagen}"
+            class="object-cover h-48 w-full"
+            alt="Product Image">
+          <div class="card-body">
+            <form
+              th:action="@{/agregar_producto}"
+              th:object="${pedido}"
+              method="post">
+              <h5
+                class="card-title text-gray-300"
+                th:text="${producto.nombre}"></h5>
+              <div class="flex flex-col py-5">
+                <p class="text-3xl font-bold">
+                  S/
+                  <span th:text="${producto.precio}"></span>
+                </p>
+                <p class="text-gray-400 text-sm">
+                  (
+                  <span th:text="${producto.stock}"></span>
+                  unidades)
+                </p>
+              </div>
+              <div class="flex items-center mt-4">
+                <button
+                  type="button"
+                  onclick="if (parseInt(cant.value) > 1) cant.value = parseInt(cant.value) - 1"
+                  class="btn btn-error">-</button>
+                <input
+                  required
+                  name="cant"
+                  value="1"
+                  class="text-2xl bg-transparent p-2 mx-2 w-16 text-center grow"
+                  type="number"
+                  id="cant">
+                <button
+                  type="button"
+                  onclick="cant.value = parseInt(cant.value) + 1"
+                  class="btn btn-success">+</button>
+              </div>
+              <input
+                name="prodId"
+                type="hidden"
+                th:value="${producto.productoId}">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block mt-4">Agregar
+                al carrito</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <dialog
+    id="modal_compra_exitosa"
+    class="modal">
+  <div class="modal-box">
+    <h3 class="text-2xl font-bold">Compra exitosa</h3>
+    <p class="py-4">¡Felicidades! Tu compra ha sido realizada con
+      éxito.</p>
+    <a
+      target="_blank"
+      th:href="@{/generar_pdf}"
+      class="btn btn-info mt-3">Imprimir boleta</a>
+    <div class="modal-action">
+      <button
+        class="btn"
+        onclick="document.getElementById('modal_compra_exitosa').close()">Cerrar</button>
+    </div>
+  </div>
+  </dialog>
+  <script
+  src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('showModal')) {
-                $('#exampleModal2').modal('show');
-            }
-        });
-    </script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('showModal') && urlParams.get('showModal') === 'true') {
+      document.getElementById('modal_compra_exitosa').showModal();
+      triggerConfetti();
+    }
+  });
+
+  function triggerConfetti() {
+    var duration = 5 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+      var timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      var particleCount = 50 * (timeLeft / duration);
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+    }, 250);
+  }
+</script>
 </body>
 </html>

@@ -53,7 +53,7 @@
 <header>
     <img src="https://campusvirtualperu.com/wp-content/uploads/2023/11/logo_cibertec_fondo_blanco_low.jpg" alt="Company Logo">
     <div class="company-info">
-        <h2>Cibertec</h2>
+        <h2>CafeTec</h2>
     </div>
 </header>
 
@@ -69,7 +69,7 @@
         <th>Nombre</th>
         <th>Cantidad</th>
         <th>Precio</th>
-        <th>subtotal</th>
+        <th>Subtotal</th>
     </tr>
     </thead>
     <tbody>
@@ -78,8 +78,8 @@
         <td><img width="50px" height="50px" th:src="${ped.productoEntity.urlImagen}" alt=""></td>
         <td th:text="${ped.productoEntity.nombre}"></td>
         <td th:text="${ped.cantidad}"></td>
-        <td th:text="'S/' + ${ped.productoEntity.precio}"></td>
-        <td th:text="'S/' + ${ped.cantidad} * ${ped.productoEntity.precio}"></td>
+        <td th:text="'S/' + ${#numbers.formatDecimal(ped.productoEntity.precio, 1, 2)}"></td>
+        <td th:text="'S/ ' + ${#numbers.formatDecimal(ped.cantidad * ped.productoEntity.precio, 1, 2)}"></td>
     </tr>
     </tbody>
 </table>
@@ -91,6 +91,6 @@
 <div class="signature">
     <img src="https://cdn.shopify.com/s/files/1/0594/4639/5086/files/Line_Through_Name.jpg" alt="Firma">
 </div>
-<span>CIBERTEC SAC.</span>
+<span>CAFETEC SAC.</span>
 </body>
 </html>

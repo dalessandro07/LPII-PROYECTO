@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html
+  lang="es"
   data-theme="coffee"
   xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -26,12 +27,11 @@
     src="/images/login-banner.jpg"
     alt="Imagen de inicio de sesión"
     class="w-full object-cover h-full max-h-dvh" />
-    
   <div class="w-full max-w-lg mx-auto p-8">
     <div
       th:if="${loginInvalido}"
       role="alert"
-      class="alert alert-error">
+      class="alert alert-error mb-5">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6 shrink-0 stroke-current"
@@ -46,10 +46,8 @@
       <span th:text="${loginInvalido}"></span>
     </div>
     <h2 class="text-4xl font-bold">Inicio de sesión</h2>
-    
     <form
       class="flex flex-col gap-4 mt-5"
-      autocomplete="off"
       th:action="@{/login}"
       method="post"
       th:object="${usuario}">
@@ -101,7 +99,9 @@
       <button
         type="submit"
         class="btn btn-primary">Iniciar sesión</button>
-      <a class="btn btn-link" href="/registrar">Crear cuenta</a>
+      <a
+        class="btn btn-link"
+        href="/registrar">Crear cuenta</a>
     </form>
   </div>
 </body>
