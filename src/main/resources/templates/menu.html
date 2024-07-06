@@ -267,6 +267,17 @@
     </div>
   </div>
   </dialog>
+  <!-- Lista de participantes -->
+  <footer class="mt-5 p-5 bg-base-200">
+    <p class="text-lg">🚀 Proyecto LPII por:</p>
+    <ul class="text-gray-400">
+      <li>Anthony Christian Ramos Rojas - I202223055</li>
+      <li>Diego Alejandro Luna Tarapa - I202223044</li>
+      <li>Diego Alessandro Rios Villegas - I202220654</li>
+      <li>Fabrizio Eduardo Fournier Soto - I202225488</li>
+      <li>Yumi Andrea Takenaka Nakasone - I202222759</li>
+    </ul>
+  </footer>
   <script
     src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
@@ -288,22 +299,23 @@
   
   // Dispara la animación de confeti
   function triggerConfetti() {
-    var duration = 5 * 1000;
-    var animationEnd = Date.now() + duration;
-    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    const duration = 5 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
     function randomInRange(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    var interval = setInterval(function() {
-      var timeLeft = animationEnd - Date.now();
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
 
       if (timeLeft <= 0) {
         return clearInterval(interval);
       }
 
-      var particleCount = 50 * (timeLeft / duration);
+      const particleCount = 50 * (timeLeft / duration);
+      
       confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
       confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
     }, 250);
