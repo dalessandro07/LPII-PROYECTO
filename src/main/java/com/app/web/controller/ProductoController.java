@@ -87,34 +87,65 @@ public class ProductoController {
 	}
 
 	@PostMapping("/agregar_producto")
-	public String agregarProducto(HttpSession session, @RequestParam("prodId") String prod,
-			@RequestParam("cant") String cant) {
-		List<Pedido> productos = null;
-		if (session.getAttribute("carrito") == null) {
+	public String agregarProducto(HttpSession session, @RequestParam("prodId") Integer prodId,
+			@RequestParam("cant") Integer cant, @RequestParam(value = "showCart", required = false) String showCart) {
+		List<Pedido> productos = (List<Pedido>) session.getAttribute("carrito");
+		if (productos == null) {
 			productos = new ArrayList<>();
-		} else {
-			productos = (List<Pedido>) session.getAttribute("carrito");
 		}
-
-		Integer cantidad = Integer.parseInt(cant);
-		Integer prodId = Integer.parseInt(prod);
-
-		boolean productoExistente = false;
+		boolean encontrado = false;
 		for (Pedido pedido : productos) {
 			if (pedido.getProductoId().equals(prodId)) {
-				pedido.setCantidad(pedido.getCantidad() + cantidad);
-				productoExistente = true;
+				pedido.setCantidad(pedido.getCantidad() + cant);
+				encontrado = true;
 				break;
 			}
 		}
+		if (!encontrado) {
+			Pedido nuevoPedido = new Pedido();
+			nuevoPedido.setProductoId(prodId);
+			nuevoPedido.setCantidad(cant);
+			productos.add(nuevoPedido);
+		}
+		session.setAttribute("carrito", productos);
+		return showCart != null ? "redirect:/menu?showCart=true" : "redirect:/menu";
+	}
 
-		if (!productoExistente) {
-			Pedido pedido = new Pedido(cantidad, prodId);
-			productos.add(pedido);
+	@PostMapping("/eliminar_producto")
+	public String eliminarProducto(HttpSession session, @RequestParam("prodId") Integer prodId,
+			@RequestParam(value = "showCart", required = false) String showCart) {
+		List<Pedido> productos = (List<Pedido>) session.getAttribute("carrito");
+		if (productos != null) {
+			productos.removeIf(p -> p.getProductoId().equals(prodId));
+			session.setAttribute("carrito", productos);
 		}
 
-		session.setAttribute("carrito", productos);
-		return "redirect:/menu";
+		if (productos == null || productos.isEmpty()) {
+			return "redirect:/menu";
+		} else {
+			return "redirect:/menu?showCart=true";
+		}
+	}
+
+	@PostMapping("/modificar_cantidad")
+	public String modificarCantidad(HttpSession session, @RequestParam("prodId") Integer prodId,
+			@RequestParam("accion") String accion,
+			@RequestParam(value = "showCart", required = false) String showCart) {
+		List<Pedido> productos = (List<Pedido>) session.getAttribute("carrito");
+		if (productos != null) {
+			for (Pedido pedido : productos) {
+				if (pedido.getProductoId().equals(prodId)) {
+					if ("incrementar".equals(accion)) {
+						pedido.setCantidad(pedido.getCantidad() + 1);
+					} else if ("decrementar".equals(accion) && pedido.getCantidad() > 1) {
+						pedido.setCantidad(pedido.getCantidad() - 1);
+					}
+					break;
+				}
+			}
+			session.setAttribute("carrito", productos);
+		}
+		return "redirect:/menu?showCart=true";
 	}
 
 	@GetMapping("/generar_pdf")

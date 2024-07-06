@@ -27,10 +27,11 @@
         th:href="@{/menu}">CafeTec | Menu</a>
     </div>
     <div class="flex flex-none gap-5 items-center pr-5">
-      <div class="dropdown dropdown-end">
-        <div
-          tabindex="0"
-          role="button"
+      <details
+        id="carritoDropdown"
+        class="dropdown dropdown-end">
+        <summary
+          id="toggleCart"
           class="btn btn-ghost btn-circle">
           <div class="indicator">
             <svg
@@ -48,9 +49,9 @@
               th:text="${cant_carrito}"
               class="badge badge-sm badge-primary indicator-item"></span>
           </div>
-        </div>
+        </summary>
+        <!-- Carrito de compras -->
         <div
-          tabindex="0"
           class="card card-compact dropdown-content bg-base-300 z-[1] mt-3 w-max shadow">
           <div
             class="card-header flex justify-between items-center p-4 border-b">
@@ -78,6 +79,9 @@
                   <th
                     scope="col"
                     class="px-4 py-2">Subtotal</th>
+                  <th
+                    scope="col"
+                    class="px-4 py-2">Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -97,12 +101,44 @@
                   <td
                     th:text="'S/' + ${#numbers.formatDecimal(ped.productoEntity.precio, 1, 2)}"
                     class="px-4 py-2"></td>
-                  <td
-                    th:text="${ped.cantidad}"
-                    class="px-4 py-2"></td>
+                  <td class="px-4 py-2">
+                    <form
+                      th:action="@{/modificar_cantidad}"
+                      method="post"
+                      class="inline">
+                      <input
+                        type="hidden"
+                        name="prodId"
+                        th:value="${ped.productoEntity.productoId}">
+                      <button
+                        type="submit"
+                        name="accion"
+                        value="decrementar"
+                        class="btn btn-sm btn-warning">-</button>
+                      <span th:text="${ped.cantidad}"></span>
+                      <button
+                        type="submit"
+                        name="accion"
+                        value="incrementar"
+                        class="btn btn-sm btn-success">+</button>
+                    </form>
+                  </td>
                   <td
                     th:text="'S/ ' + ${#numbers.formatDecimal(ped.cantidad * ped.productoEntity.precio, 1, 2)}"
                     class="px-4 py-2"></td>
+                  <td class="px-4 py-2">
+                    <form
+                      th:action="@{/eliminar_producto}"
+                      method="post">
+                      <input
+                        type="hidden"
+                        name="prodId"
+                        th:value="${ped.productoEntity.productoId}">
+                      <button
+                        type="submit"
+                        class="btn btn-error">Eliminar</button>
+                    </form>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -113,11 +149,14 @@
           </div>
           <div class="card-footer flex justify-end p-4 border-t">
             <a
+              th:if="${carrito.size() > 0}"
               th:href="@{/guardar_factura}"
               class="btn btn-primary">Confirmar compra</a>
           </div>
         </div>
-      </div>
+        <!-- Fin del Carrito de compras -->
+      </details>
+      <!-- Dropdown de usuario -->
       <div class="dropdown dropdown-end avatar">
         <div
           tabindex="0"
@@ -147,8 +186,10 @@
           </li>
         </ul>
       </div>
+      <!-- Fin del Dropdown de usuario -->
     </div>
   </nav>
+  <!-- Contenido (lista de productos) del menú -->
   <div class="mt-5 px-5">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <div th:each="producto: ${productos}">
@@ -159,7 +200,7 @@
             alt="Product Image">
           <div class="card-body">
             <form
-              th:action="@{/agregar_producto}"
+              th:action="@{/agregar_producto(showCart=true)}"
               th:object="${pedido}"
               method="post">
               <h5
@@ -207,6 +248,7 @@
       </div>
     </div>
   </div>
+  <!-- Fin del contenido del menú -->
   <dialog
     id="modal_compra_exitosa"
     class="modal">
@@ -226,16 +268,25 @@
   </div>
   </dialog>
   <script
-  src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('showModal') && urlParams.get('showModal') === 'true') {
-      document.getElementById('modal_compra_exitosa').showModal();
-      triggerConfetti();
-    }
-  });
-
+    src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const cartElement = document.getElementById('carritoDropdown')
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      // Muestra el modal de compra realizada
+      if (urlParams.has('showModal') && urlParams.get('showModal') === 'true') {
+        document.getElementById('modal_compra_exitosa').showModal();
+        triggerConfetti();
+      }
+      
+      // Muestra el carrito de compras
+      if (urlParams.has('showCart') && urlParams.get('showCart') === 'true') {
+        cartElement.open = true;
+      }
+    });
+  
+  // Dispara la animación de confeti
   function triggerConfetti() {
     var duration = 5 * 1000;
     var animationEnd = Date.now() + duration;
